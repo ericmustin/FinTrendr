@@ -9,11 +9,16 @@ import { Input } from 'react-bootstrap';
 import { ButtonInput } from 'react-bootstrap';
 
 class SearchBar extends Component {
+   static contextTypes = {
+    router: PropTypes.object,
+    history: PropTypes.object
+  }
+
   constructor(props) {
     super(props);
     this.state = { term: '' };
     this.onInputChange = this.onInputChange.bind(this);
-    this.onFormSubmit = this.onFormSubmit.bind(this);
+    // this.onFormSubmit = this.onFormSubmit.bind(this);
     this.handleKeyPress = this.handleKeyPress.bind(this);
   }
 
@@ -21,10 +26,10 @@ class SearchBar extends Component {
     this.setState({term: event.target.value});
   }
 
-  onFormSubmit(e) {
-    e.preventDefault();
-    this.context.router.push(`/k/${this.state.term}`);
-  }
+  // onFormSubmit(e) {
+  //   e.preventDefault();
+  //   `/k/${this.state.term}`);
+  // }
 
   handleKeyPress(e) {
     if(e.key === 'Enter') {
@@ -33,14 +38,12 @@ class SearchBar extends Component {
   }
 
   render(){
-    const button = <ButtonInput className="btn btn-default" type="submit">Go Get Trends!</ButtonInput>;
+    let path = `/k/${this.state.term}`;
+    let button = <ButtonInput className="btn btn-default" id='search-button' href={path} > Go Get Trends!</ButtonInput>;
     return (
     <div className="row">
       <div className="col-lg-4">
-        <form id="form" onSubmit={this.onFormSubmit}>
-          <Input type="text" className="form-control" placeholder="input a keyword" id="inputBox" value={this.state.term} onChange={this.onInputChange} onKeyPress={this.handleKeyPress} buttonAfter={button} />
-          
-        </form>
+          <Input type="text" className="form-control" placeholder="input a keyword" id="inputBox" value={this.state.term} onChange={this.onInputChange} onKeyPress={this.handleKeyPress} buttonAfter={button} />      
       </div>
     </div>
     );
